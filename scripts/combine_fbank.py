@@ -27,7 +27,7 @@ def return_vec(x,id1,id2):
                 # print vector
                 return vector
         else:
-                print "Something is wrong in the return_vec function"
+                print("Something is wrong in the return_vec function")
 
 def filter_data(x):
         type1=x[x[:,-2]==0]
@@ -49,7 +49,7 @@ def file_opener(file_read):
         return file_reader
 def changedir():
         os.chdir(cwd)
-        print "Current working directory: ",os.getcwd()
+        print(("Current working directory: ",os.getcwd()))
 
 def data_creator(num,addr,file_reader,filename):
         corrupt_files=0
@@ -58,7 +58,7 @@ def data_creator(num,addr,file_reader,filename):
         changedir()
         writer=htk.open(filename+'.htk',mode='w',veclen=num) #num is the final feature vector size to be written(including the label. Ensure that by looking at the botttom entry)
         for i in range(len(file_reader)):
-                print "Starting with file: ",i
+                print(("Starting with file: ",i))
                 data_read=htk.open(addr+file_reader[i]+'.htk') #opening the Gamma-Label HTK file
                 # kurt_matrix=sio.loadmat(kurt_addr+file_reader[i]+'.mat')['kurt'] #opening the kurtosis matrix for a file
                 # sfm_matrix=sio.loadmat(sfm_addr+file_reader[i]+'.mat')['sfm'] #opening the sfm_matrix file
@@ -87,7 +87,7 @@ def data_creator(num,addr,file_reader,filename):
                         del read_data
                 except:
                         corrupt_files+=1
-                        print "In the corrupt file section",corrupt_files
+                        print(("In the corrupt file section",corrupt_files))
                         # f1=open('corrupt.txt','w')
                         # write_s=str(file_reader[i])
                         # f1.write(write_s)
@@ -96,7 +96,7 @@ def data_creator(num,addr,file_reader,filename):
                         # ind=ind+read_data.shape[0]
                 #HTK supports concatenation, so we don't have to deal with numpy matrix again and again
                 writer.writeall(final_vector)
-        print('corrput_files',corrupt_files)
+        print(('corrput_files',corrupt_files))
         f=open(save_extra,'w')
         write_string=str(scdlab)+","+str(noscdlab)+", Corrupt: "+str(corrupt_files)
         f.write(write_string)

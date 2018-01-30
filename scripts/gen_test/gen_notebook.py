@@ -41,7 +41,7 @@ def data_saver(data):
 
 def gen_func(file1,file2,input_index):
         print('Begin')
-        print(file1,file2,input_index)
+        print((file1,file2,input_index))
         data_saver(str(file1)+str(file2))
         ind1=file1.index('_')+1
         ind2=file2.index('_')+1

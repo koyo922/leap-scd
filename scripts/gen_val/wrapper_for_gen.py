@@ -22,5 +22,5 @@ for i in range(len(f)-10000):
         file1=f[i]
         file2=f_1[i]
         gen.gen_func(file1,file2,int(f_2[i]))
-        print "Completed Generating",  i+1
+        print(("Completed Generating",  i+1))
 

@@ -15,7 +15,7 @@ from keras.regularizers import l2
 from keras.callbacks import ModelCheckpoint,EarlyStopping,ReduceLROnPlateau
 from keras.layers.convolutional import Conv2D
 from keras.layers.pooling import MaxPooling2D
-import ConfigParser
+import configparser
 import logging
 import time
 import sys
@@ -54,29 +54,29 @@ def cnn_reshaper(Data):
         return dat
 
 def load_data_train(trainfile):
-        print "Getting the training data"
+        print("Getting the training data")
         a=htk.open(trainfile)
         train_data=a.getall()
-        print "Done with Loading the training data: ",train_data.shape
+        print("Done with Loading the training data: ",train_data.shape)
         data=filter_data_train(train_data)
         # x_train=cnn_reshaper(data[:,:-2]) #Set to different column based on different model
         x_train=data[:,:-2] #Set to different column based on different model
         Y_train=data[:,-2]
-        print Y_train.shape
+        print(Y_train.shape)
         # print np.where(Y_train==2)
         Y_train=Y_train.reshape(Y_train.shape[0],1)
         y_train=np_utils.to_categorical(Y_train,2)
-        print y_train[0:5,:]
+        print(y_train[0:5,:])
         gender_train=data[:,-1]
         del data
         return x_train,y_train,gender_train
 def load_data_test(testfile):
         a=htk.open(testfile)
         data=a.getall()
-        print "Done loading the testing data: ",data.shape
+        print("Done loading the testing data: ",data.shape)
         x_test=cnn_reshaper(data[:,:-2])
         Y_test=data[:,-2]
-        print np.where(Y_test==2)
+        print(np.where(Y_test==2))
         # Y_test=np.reshape(Y_test,(Y_test.shape[0],1))
         # y_test=np_utils.to_categorical(Y_test,2)
         gender_labels=data[:,-1]
@@ -85,7 +85,7 @@ def load_data_test(testfile):
 def load_data_val(valfile):
         a=htk.open(valfile)
         data=a.getall()
-        print "Done loading the validation data: ",data.shape
+        print("Done loading the validation data: ",data.shape)
         data=filter_data_val(data)
         x_val=data[:,:-2]
         Y_val=data[:,-2]
@@ -111,10 +111,10 @@ def metrics(y_val,classes,gender_val):
         single_correct_matrix=np.zeros((2,2))
         cd_incorrect_matrix=np.zeros((2,2))
         single_incorrect_matrix=np.zeros((2,2))
-        print classes.shape
+        print(classes.shape)
         single_correct,cd_correct,single_incorrect,cd_incorrect=0,0,0,0
-        print np.where(classes==1)
-        print np.where(y_val[:,1]==1)
+        print(np.where(classes==1))
+        print(np.where(y_val[:,1]==1))
         for i in range(len(y_val)):
                 if y_val[i,1]==1:
                         if classes[i]==1:
@@ -164,16 +164,16 @@ def metrics(y_val,classes,gender_val):
 
 #Non-function section
 x_train,y_train,gender_train=load_data_train(trainfile)
-print "Loading training data complete"
+print("Loading training data complete")
 #x_test,y_test,gender_labels=load_data_test(testfile)
 #print "Loading testing data complete"
 x_val,y_val,gender_val=load_data_val(valfile)
 # print np.where(y_val[:,1]==1)
-print "Loading validation data complete"
+print("Loading validation data complete")
 ## SHAPE TESTS ###
-print "Train Shape: ",x_train.shape," ",y_train.shape
+print("Train Shape: ",x_train.shape," ",y_train.shape)
 #print "Test Shape: ",x_test.shape," ",y_test.shape
-print "Val Shape: ",x_val.shape," ",y_val.shape
+print("Val Shape: ",x_val.shape," ",y_val.shape)
 ###
 
 ### THE MODEL and ALL ###

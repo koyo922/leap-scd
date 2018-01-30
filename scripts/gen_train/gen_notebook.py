@@ -41,7 +41,7 @@ def data_saver(data):
 
 def gen_func(file1,file2,input_index):
         print('Begin')
-        print(file1,file2,input_index)
+        print((file1,file2,input_index))
         data_saver(str(file1)+","+str(file2))
         ind1=file1.index('_')+1
         ind2=file2.index('_')+1
@@ -131,7 +131,7 @@ def gen_func(file1,file2,input_index):
         labelpart2=np.hstack((labelFrames2[firstindex:])) #silence part was not extraneous, was coming twice
         labelFrames = np.hstack((labelpart1,labelpart2))
         # print "Length of the labelFRames vector: ",labelFrames.shape
-        print labelFrames
+        print(labelFrames)
         start=0
         iterator=0
         skip_entries=int(decision_samples/160)

@@ -17,7 +17,7 @@ from keras.regularizers import l2
 from keras.callbacks import ModelCheckpoint,EarlyStopping,ReduceLROnPlateau
 from keras.layers.convolutional import Conv2D
 from keras.layers.pooling import MaxPooling2D
-import ConfigParser
+import configparser
 import logging
 import time
 import sys
@@ -61,21 +61,21 @@ def cnn_reshaper(Data):
         return dat
 
 def load_data_train(trainfile):
-        print "Getting the training data"
+        print("Getting the training data")
         a=htk.open(trainfile)
         train_data=a.getall()
-        print "Done with Loading the training data: ",train_data.shape
+        print("Done with Loading the training data: ",train_data.shape)
         data=filter_data_train(train_data)
         # x_train=cnn_reshaper(data[:,:-2]) #Set to different column based on different model
         x_train=data[:,:-2] #Set to different column based on different model
         scaler=StandardScaler().fit(x_train)
         # x_train=scaler.transform(x_train)
         Y_train=data[:,-2]
-        print Y_train.shape
+        print(Y_train.shape)
         # print np.where(Y_train==2)
         Y_train=Y_train.reshape(Y_train.shape[0],1)
         y_train=np_utils.to_categorical(Y_train,2)
-        print y_train[0:5,:]
+        print(y_train[0:5,:])
         gender_train=data[:,-1]
         del data
         #x_train has complete data, that is gammatone and also the pitch variance values.
@@ -84,10 +84,10 @@ def load_data_train(trainfile):
 def load_data_test(testfile):
         a=htk.open(testfile)
         data=a.getall()
-        print "Done loading the testing data: ",data.shape
+        print("Done loading the testing data: ",data.shape)
         x_test=cnn_reshaper(data[:,:-2])
         Y_test=data[:,-2]
-        print np.where(Y_test==2)
+        print(np.where(Y_test==2))
         # Y_test=np.reshape(Y_test,(Y_test.shape[0],1))
         # y_test=np_utils.to_categorical(Y_test,2)
         gender_labels=data[:,-1]
@@ -96,7 +96,7 @@ def load_data_test(testfile):
 def load_data_val(valfile,scaler):
         a=htk.open(valfile)
         data=a.getall()
-        print "Done loading the validation data: ",data.shape
+        print("Done loading the validation data: ",data.shape)
         data=filter_data_val(data)
         x_val=data[:,:-2]
         # x_val=scaler.transform(x_val)
@@ -126,8 +126,8 @@ def metrics(y_val,classes,gender_val):
         single_incorrect_matrix=np.zeros((1,2))
         # print classes.shape
         single_correct,cd_correct,single_incorrect,cd_incorrect=0,0,0,0
-        print "Predicted Classes: ",np.where(classes==1)
-        print "Actual classes: ",np.where(y_val[:,1]==1)
+        print("Predicted Classes: ",np.where(classes==1))
+        print("Actual classes: ",np.where(y_val[:,1]==1))
         for i in range(len(y_val)):
                 if y_val[i,1]==1:
                         if classes[i]==1:
@@ -148,7 +148,7 @@ def metrics(y_val,classes,gender_val):
         data_saver(single_correct)
         data_saver('Single speaker frames wrongly classified')
         data_saver(single_incorrect)
-        print "Gender Labels[0:100]: ",gender_val[0:100]
+        print("Gender Labels[0:100]: ",gender_val[0:100])
 
         #We need a matrix, one of correctly classified changes, and the other of incorrectly classified changes.
         for i in range(len(y_val)):
@@ -187,7 +187,7 @@ def metrics(y_val,classes,gender_val):
 
 #Load training data
 x_train,y_train,gender_train,scaler=load_data_train(trainfile)
-print "Loading training data complete"
+print("Loading training data complete")
 # px_train,py_train,fgender_train,scaler=load_data_train(pitch_trainfile)
 # print "Loading pitch training data complete"
 
@@ -197,14 +197,14 @@ print "Loading training data complete"
 
 ##Load validation data
 x_val,y_val,gender_val=load_data_val(valfile,scaler)
-print "Loading validation data complete"
+print("Loading validation data complete")
 # px_val,py_val,pgender_val=load_data_val(fbank_valfile,scaler)
 # print "Loading pitch validation data complete"
 
 ## SHAPE TESTS ###
-print "Train Shape: ",x_train.shape," ",y_train.shape
+print("Train Shape: ",x_train.shape," ",y_train.shape)
 #print "Test Shape: ",x_test.shape," ",y_test.shape
-print "Val Shape: ",x_val.shape," ",y_val.shape
+print("Val Shape: ",x_val.shape," ",y_val.shape)
 ###
 
 ### THE MODEL and ALL ###
@@ -274,8 +274,8 @@ def seq(x_train,y_train,x_val,y_val,x_test,y_test):
         #print "Shape of predictions: ", predictions.shape
         data_saver(str(len(np.where(y_train[:,0]==1)[0])))
         data_saver(str(len(np.where(y_train[:,1]==1)[0])))
-        print "Training 0 class: ",len(np.where(y_train[:,0]==1)[0])
-        print "Training 1 class: ",len(np.where(y_train[:,1]==1)[0])
+        print("Training 0 class: ",len(np.where(y_train[:,0]==1)[0]))
+        print("Training 1 class: ",len(np.where(y_train[:,1]==1)[0]))
         return classes
 
 #Non-function section

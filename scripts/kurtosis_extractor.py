@@ -9,7 +9,7 @@ import math
 from sklearn import preprocessing
 import sklearn.preprocessing as skp
 
-print "Please check the arguments were as follows: Raw list,Wavefile dir,Savedir"
+print("Please check the arguments were as follows: Raw list,Wavefile dir,Savedir")
 rawlist='/home/siddharthm/scd/lists/rawvalfiles.list'
 wavfiledir='/home/siddharthm/scd/wav/val/'
 savedir='/home/siddharthm/scd/feats/kurt/val/'
@@ -18,7 +18,7 @@ f=f.read()
 f=f.strip()
 f=re.split('\n',f)
 for j in range(len(f)):
-    print j
+    print(j)
     raw=wave.open(wavfiledir+f[j]+'.wav','r')
     nchannels,sampwidth,sampling_rate,total_frames,comptype,compname=raw.getparams()
     sampling_rate,data=wav.read(wavfiledir+f[j]+'.wav')

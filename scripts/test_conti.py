@@ -38,7 +38,7 @@ def Data_Getter(filename):
         y_val=temp_gamma[:,-1] #These are the real labels, that is from the ground truth
         y_val=y_val.reshape(y_val.shape[0],1)
         y_val=y_val.astype(np.int8)
-        print(x_val.shape,y_val.shape)
+        print((x_val.shape,y_val.shape))
         return (x_val,only_pitch,y_val)
 
 ###---- LIST FILE SECTION-----###
@@ -46,7 +46,7 @@ list_file=open('/home/siddharthm/scd/lists/rawtrainfiles.list')
 List=list_file.read()
 List=List.strip()
 List=re.split('\n',List)
-print "Total number of files in this list: ",len(List)
+print(("Total number of files in this list: ",len(List)))
 ###-------###
 
 ###---- Load the saved model[architecture, along with the weights]-----###
@@ -54,7 +54,7 @@ model=load_model('600-gamma-pitch-model.h5')
 ###-------###
 
 for i in range(len(List)):
-        print "The file is: ",List[i] #printing which file we are considering.
+        print(("The file is: ",List[i])) #printing which file we are considering.
         x_val,pitch,y_truth=Data_Getter(List[i]) #Gets the raw input, and the ground truth file
         scores=model.predict([x_val,pitch],batch_size=256)
         classes=scores.argmax(axis=-1)
